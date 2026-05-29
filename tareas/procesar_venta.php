@@ -15,7 +15,7 @@ $cliente_dni = "45678912";
 $cliente_tipo = "vip"; // opciones: regular, frecuente, vip
 $metodo_pago = "efectivo"; // opciones: efectivo, yape, plin, tarjeta
 
-//productos comprados
+// Productos comprados
 $productos = [
     [
         "nombre" => "Inca Kola 1.5L",
@@ -38,7 +38,7 @@ $productos = [
 ];
 
 // ============================================================
-// REGLA 1: VALIDACION DE DNI
+// VALIDACION DE DNI
 // ============================================================
 if (strlen($cliente_dni) !== 8 || !is_numeric($cliente_dni)) {
     echo "<h3>Error en la operacion</h3>";
@@ -47,7 +47,7 @@ if (strlen($cliente_dni) !== 8 || !is_numeric($cliente_dni)) {
 }
 
 // ============================================================
-// PROCESAMIENTO DE PRODUCTOS (REGLAS 2 Y 3)
+// PROCESAMIENTO DE PRODUCTOS 
 // ============================================================
 $total_subtotal = 0;
 $total_igv = 0;
@@ -59,7 +59,7 @@ foreach ($productos as $item) {
     $precio_unitario = $item["precio"];
     $cantidad_comprada = $item["cantidad"];
 
-    // Regla 2: IGV segun categoria
+    // IGV segun categoria
     $tasa_igv = 0;
     switch ($cat_prod) {
         case 'abarrotes':
@@ -75,7 +75,7 @@ foreach ($productos as $item) {
             break;
     }
 
-    // Regla 3: Subtotal por producto
+    // Subtotal por producto
     $subtotal_item = $precio_unitario * $cantidad_comprada;
     $igv_item = $subtotal_item * $tasa_igv;
     $total_item = $subtotal_item + $igv_item;
@@ -83,7 +83,7 @@ foreach ($productos as $item) {
     $total_subtotal = $total_subtotal + $subtotal_item;
     $total_igv = $total_igv + $igv_item;
 
-    // Construyendo filas del HTML concatenando con punto
+    // Construyendo filas del HTML 
     $filas_detalle = $filas_detalle . "<tr>" .
         "<td style='border: 1px solid #ccc; padding: 8px;'>" . $nombre_prod . "</td>" .
         "<td style='border: 1px solid #ccc; padding: 8px; text-align: center;'>" . $cantidad_comprada . "</td>" .
@@ -96,7 +96,7 @@ foreach ($productos as $item) {
 $suma_total = $total_subtotal + $total_igv;
 
 // ============================================================
-// REGLA 4: DESCUENTO POR MONTO TOTAL
+// DESCUENTO POR MONTO TOTAL
 // ============================================================
 $descuento_monto_pct = 0;
 if ($suma_total < 30) {
@@ -110,7 +110,7 @@ if ($suma_total < 30) {
 }
 
 // ============================================================
-// REGLA 5: DESCUENTO ADICIONAL POR TIPO CLIENTE
+// DESCUENTO ADICIONAL POR TIPO CLIENTE
 // ============================================================
 $descuento_tipo_pct = 0;
 if ($cliente_tipo == 'frecuente') {
@@ -125,7 +125,7 @@ $monto_descuento = $suma_total * $porcentaje_total;
 $total_final = $suma_total - $monto_descuento;
 
 // ============================================================
-// REGLA 6: VALIDACION DE METODO DE PAGO
+// VALIDACION DE METODO DE PAGO
 // ============================================================
 $mensaje_pago = "";
 switch ($metodo_pago) {
@@ -145,7 +145,7 @@ switch ($metodo_pago) {
 }
 
 // ============================================================
-// REGLA 7: SALUDO SEGUN HORA ACTUAL
+// SALUDO SEGUN HORA ACTUAL
 // ============================================================
 $hora_actual = (int)date('H');
 $saludo = "";
@@ -163,7 +163,7 @@ if ($hora_actual >= 5 && $hora_actual <= 11) {
 $fecha_actual = date('Y-m-d H:i:s');
 
 // ============================================================
-// REGLA 8: OUTPUT - COMPROBANTE HTML PROFESIONAL
+// COMPROBANTE DE VENTA
 // ============================================================
 ?>
 <!DOCTYPE html>
