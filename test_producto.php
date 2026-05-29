@@ -8,13 +8,12 @@ $scotchBrite  = new Producto('SCB400', 'Scotch Brite 3uds', 4.50, 30);
 $inkaChips    = new Producto('IKC300', 'Inca Chips 135g', 2.50, 10);
 $kolaEscocesa = new Producto('KLE200', 'Kola Escocesa 355ml', 4.50, 5);
 
-// Leer las propiedades igual: con ->
-echo $incaKola->nombre;   // Inca Kola 500ml
+// Fíjate bien en los paréntesis () al final de cada uno:
+echo $incaKola->getNombre();   
 echo "<br>";
-echo $scotchBrite->nombre;  
+echo $scotchBrite->getNombre();  
 echo "<br>";
-echo $inkaChips->nombre;
+echo $inkaChips->getNombre();
 echo "<br>";
-echo $kolaEscocesa->nombre;
-
+echo $kolaEscocesa->getNombre();
 ?>
