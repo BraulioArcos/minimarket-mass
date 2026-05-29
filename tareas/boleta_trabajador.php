@@ -23,26 +23,26 @@ $valor_hora_extra = 18.50;
 // 3. tasas de descuento y aportes
 $tasa_afp = 0.13;
 $tasa_renta = 0.08;
-$tasa_essalud = 0.09; // tasa para el reto 1
+$tasa_essalud = 0.09; 
 
 // 4. calculos obligatorios
-// multiplicacion basica para sacar el total ganado en horas extra
+// Total ganado en horas extra
 $pago_horas_extras = $horas_extras * $valor_hora_extra;
 
-// suma de todos los ingresos usando el operador +
+// Suma de todos los ingresos usando el operador +
 $total_ingresos = $sueldo_base + $asig_familiar + $pago_horas_extras;
 
-// calculo de porcentajes multiplicando por las tasas
+// Calculo de porcentajes multiplicando por las tasas
 $descuento_afp = $total_ingresos * $tasa_afp;
 $descuento_renta = $total_ingresos * $tasa_renta;
 
-// suma de los descuentos
+// Suma de los descuentos
 $total_descuentos = $descuento_afp + $descuento_renta;
 
-// resta final para obtener el neto
+// Obtener el sueldo neto
 $sueldo_neto = $total_ingresos - $total_descuentos;
 
-// 5. calculos de retos adicionales
+// 5. Calculos adicionales
 $essalud = $total_ingresos * $tasa_essalud; // reto 1
 $costo_empresa = $total_ingresos + $essalud; // reto 2
 $fecha_actual = date("d/m/Y"); // reto 3
@@ -72,10 +72,10 @@ $sueldo_proporcional = ($sueldo_base / 30) * 22; // reto 4
             text-align: left; 
         }
         .cabecera { background-color: #eeeeee; }
-        .ingresos { background-color: #e8f5e9; } /* verde claro para ingresos */
-        .descuentos { background-color: #ffebee; } /* rojo claro para descuentos */
+        .ingresos { background-color: #e8f5e9; } /* Verde claro para ingresos */
+        .descuentos { background-color: #ffebee; } /* Rojo claro para descuentos */
         .totales { font-weight: bold; }
-        .info-adicional { background-color: #e3f2fd; } /* azul claro para info extra */
+        .info-adicional { background-color: #e3f2fd; } /* Azul claro para info extra */
     </style>
 </head>
 <body>
