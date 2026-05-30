@@ -12,7 +12,7 @@ class Cliente {
         $this->tipo = strtolower($tipo);
     }
 
-    // Encapsulación y validación de DNI basada en tu lógica original
+    // Encapsulación y validación de DNI 
     public function setDni(string $dni): void {
         if (strlen($dni) !== 8 || !is_numeric($dni)) {
             throw new Exception("ERROR: El DNI debe tener exactamente 8 digitos numericos.");

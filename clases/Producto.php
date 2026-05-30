@@ -24,7 +24,7 @@ class Producto {
         return $this->precio;
     }
 
-    // Determina la tasa del IGV basándose en tu lógica de negocio
+    // Determina la tasa del IGV 
     public function getTasaIgv(): float {
         switch ($this->categoria) {
             case 'bebidas':
