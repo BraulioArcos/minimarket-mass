@@ -1,62 +1,39 @@
 <?php
-declare(strict_types=1);
+// clases/Producto.php
 
-/**
- * Producto del Minimarket Mass.
- * Representa un artículo del catálogo: Inca Kola, Costeño, Gloria, etc.
- */
 class Producto {
-    private string $codigo;
     private string $nombre;
+    private string $categoria; // bebidas, abarrotes, panaderia, etc.
     private float $precio;
-    private int $stock;
 
-    private const TASA_IGV = 0.18;
-
-    public function __construct(
-        string $codigo,
-        string $nombre,
-        float $precio,
-        int $stock = 0
-    ) {
-        if (empty(trim($codigo))) {
-            throw new InvalidArgumentException("El código no puede estar vacío");
-        }
-        if ($precio < 0) {
-            throw new InvalidArgumentException("El precio no puede ser negativo");
-        }
-        $this->codigo = $codigo;
+    public function __construct(string $nombre, string $categoria, float $precio) {
         $this->nombre = $nombre;
+        $this->categoria = strtolower($categoria);
         $this->precio = $precio;
-        $this->stock  = max(0, $stock);
     }
 
-    // === GETTERS ===
-
-    public function getCodigo(): string { return $this->codigo; }
-    public function getNombre(): string { return $this->nombre; }
-    public function getPrecio(): float { return $this->precio; }
-    public function getStock():  int   { return $this->stock; }
-
-    // === MÉTODOS DE NEGOCIO ===
-
-    /** Precio con IGV peruano (18%) aplicado */
-    public function precioConIGV(): float {
-        return round($this->precio * (1 + self::TASA_IGV), 2);
+    public function getNombre(): string {
+        return $this->nombre;
     }
 
-    /** ¿Tiene stock suficiente para una cantidad dada? */
-    public function haySuficienteStock(int $cantidad): bool {
-        return $this->stock >= $cantidad;
+    public function getCategoria(): string {
+        return $this->categoria;
     }
 
-    /** Descuenta cantidad del stock. Devuelve true si pudo */
-    public function descontarStock(int $cantidad): bool {
-        if (!$this->haySuficienteStock($cantidad)) {
-            return false;
+    public function getPrecio(): float {
+        return $this->precio;
+    }
+
+    // Determina la tasa del IGV basándose en tu lógica de negocio
+    public function getTasaIgv(): float {
+        switch ($this->categoria) {
+            case 'bebidas':
+            case 'abarrotes':
+                return 0.18; // 18%
+            case 'panaderia':
+                return 0.00; // Exento de IGV (0%)
+            default:
+                return 0.18; // Por defecto aplica tasa general
         }
-        $this->stock -= $cantidad;
-        return true;
     }
 }
-?>
