@@ -80,4 +80,158 @@ class ProductoRepository {
             return null;
         }
     }
+
+    /**
+     * Busca productos cuyo nombre contenga el término indicado.
+     * Usa LIKE con prepared statement — el % se arma en PHP, no en el SQL.
+     * @return Producto[]
+     */
+    public function buscarPorNombre(string $termino): array {
+        try {
+            $pdo = getConexion();
+
+            $stmt = $pdo->prepare(
+                "SELECT codigo_barras AS codigo, nombre, precio, stock
+                 FROM productos
+                 WHERE nombre LIKE :termino
+                 ORDER BY nombre"
+            );
+            $stmt->execute([':termino' => '%' . $termino . '%']);
+
+            $productos = [];
+            foreach ($stmt->fetchAll() as $f) {
+                $productos[] = new Producto(
+                    $f['codigo'],
+                    $f['nombre'],
+                    (float) $f['precio'],
+                    (int)   $f['stock']
+                );
+            }
+            return $productos;
+
+        } catch (PDOException $e) {
+            error_log('[ProductoRepository::buscarPorNombre] ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Devuelve los productos de una categoría específica.
+     * Filtra por categoria_id con prepared statement.
+     * @return Producto[]
+     */
+    public function obtenerPorCategoria(int $categoriaId): array {
+        try {
+            $pdo = getConexion();
+
+            $stmt = $pdo->prepare(
+                "SELECT codigo_barras AS codigo, nombre, precio, stock
+                 FROM productos
+                 WHERE categoria_id = :id
+                 ORDER BY nombre"
+            );
+            $stmt->execute([':id' => $categoriaId]);
+
+            $productos = [];
+            foreach ($stmt->fetchAll() as $f) {
+                $productos[] = new Producto(
+                    $f['codigo'],
+                    $f['nombre'],
+                    (float) $f['precio'],
+                    (int)   $f['stock']
+                );
+            }
+            return $productos;
+
+        } catch (PDOException $e) {
+            error_log('[ProductoRepository::obtenerPorCategoria] ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Devuelve los productos con stock menor al umbral indicado,
+     * ordenados de menor a mayor stock (los más urgentes primero).
+     * @return Producto[]
+     */
+    public function obtenerBajoStock(int $umbral): array {
+        try {
+            $pdo = getConexion();
+
+            $stmt = $pdo->prepare(
+                "SELECT codigo_barras AS codigo, nombre, precio, stock
+                 FROM productos
+                 WHERE stock < :umbral
+                 ORDER BY stock ASC"
+            );
+            $stmt->execute([':umbral' => $umbral]);
+
+            $productos = [];
+            foreach ($stmt->fetchAll() as $f) {
+                $productos[] = new Producto(
+                    $f['codigo'],
+                    $f['nombre'],
+                    (float) $f['precio'],
+                    (int)   $f['stock']
+                );
+            }
+            return $productos;
+
+        } catch (PDOException $e) {
+            error_log('[ProductoRepository::obtenerBajoStock] ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Devuelve el total de productos en la tabla.
+     * Usa COUNT(*) y fetchColumn() → devuelve un int, no un array.
+     */
+    public function contarTotalProductos(): int {
+        try {
+            $pdo = getConexion();
+            $stmt = $pdo->query("SELECT COUNT(*) FROM productos");
+            return (int) $stmt->fetchColumn();
+
+        } catch (PDOException $e) {
+            error_log('[ProductoRepository::contarTotalProductos] ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * BONUS: Devuelve los productos más caros del catálogo.
+     * Útil para mostrar los productos premium o revisar precios altos.
+     * Usa LIMIT con bindValue y PDO::PARAM_INT (LIMIT no acepta strings).
+     * @return Producto[]
+     */
+    public function obtenerMasCaros(int $limite): array {
+        try {
+            $pdo = getConexion();
+
+            $stmt = $pdo->prepare(
+                "SELECT codigo_barras AS codigo, nombre, precio, stock
+                 FROM productos
+                 ORDER BY precio DESC
+                 LIMIT :limite"
+            );
+            $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $productos = [];
+            foreach ($stmt->fetchAll() as $f) {
+                $productos[] = new Producto(
+                    $f['codigo'],
+                    $f['nombre'],
+                    (float) $f['precio'],
+                    (int)   $f['stock']
+                );
+            }
+            return $productos;
+
+        } catch (PDOException $e) {
+            error_log('[ProductoRepository::obtenerMasCaros] ' . $e->getMessage());
+            return [];
+        }
+    }
 }
