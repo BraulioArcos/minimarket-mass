@@ -12,6 +12,11 @@ $u = usuarioActual();
       <span style="background:#10b981;color:#fff;padding:2px 10px;border-radius:20px;font-size:13px;font-weight:700;">Caja</span>
     <?php endif; ?>
     &nbsp;·&nbsp; Tienda: <em><?= htmlspecialchars($u['tienda']) ?></em>
+    &nbsp;·&nbsp; Último acceso:
+    <em><?= htmlspecialchars($u['ultimo_acceso']
+        ? date('d/m/Y H:i', strtotime($u['ultimo_acceso']))
+        : 'Primera sesión') ?>
+    </em>
   </div>
   <a href="index.php?accion=logout" style="background:#fff;color:#0066B3;padding:6px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;">Salir</a>
 </div>

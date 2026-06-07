@@ -12,7 +12,7 @@ declare(strict_types=1);
  * pero todos validan la misma contraseña con password_verify().
  */
 
-$clave = 'Brax';
+$clave = '1234';
 $hash  = password_hash($clave, PASSWORD_DEFAULT);
 
 echo "<h2>Generador de hash</h2>";

@@ -234,4 +234,24 @@ class ProductoRepository {
             return [];
         }
     }
+    public function crear(array $d): bool {
+    try {
+        $pdo  = getConexion();
+        $stmt = $pdo->prepare(
+            "INSERT INTO productos (codigo_barras, nombre, marca, categoria_id, precio, stock)
+             VALUES (:codigo, :nombre, :marca, :categoria, :precio, :stock)"
+        );
+        return $stmt->execute([
+            ':codigo'    => $d['codigo'],
+            ':nombre'    => $d['nombre'],
+            ':marca'     => $d['marca'],
+            ':categoria' => $d['categoria'],
+            ':precio'    => $d['precio'],
+            ':stock'     => $d['stock'],
+        ]);
+    } catch (PDOException $e) {
+        error_log('[ProductoRepository::crear] ' . $e->getMessage());
+        return false;
+    }
+}
 }
