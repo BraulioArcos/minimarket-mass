@@ -1,6 +1,7 @@
-<hr>
-    <p style="color:#999; font-size:12px;">
-        Minimarket Mass — Sistema desarrollado en clase SENATI 2026
-    </p>
+</div><!-- /.contenedor -->
+<footer class="footer">
+  <strong>SENATI</strong> · CFP Arequipa · Minimarket Mass · Mass Cayma · 2026
+  &nbsp;·&nbsp; Desarrollado por <strong>Brandon Arcos</strong>
+</footer>
 </body>
 </html>
