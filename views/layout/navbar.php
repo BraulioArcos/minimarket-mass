@@ -72,6 +72,11 @@
   <div class="usuario">
     👤 <strong><?= htmlspecialchars($u['nombre']) ?></strong>
     <span class="rol-badge"><?= htmlspecialchars(ucfirst($u['rol'])) ?></span>
+    <?php if (!empty($u['ultimo_acceso'])): ?>
+      <em style="font-size:12px;color:#cce0f5;">
+        Último acceso: <?= htmlspecialchars(date('d/m/Y H:i', strtotime($u['ultimo_acceso']))) ?>
+      </em>
+    <?php endif; ?>
     <a href="index.php?accion=logout" class="salir">Salir</a>
   </div>
 </nav>
