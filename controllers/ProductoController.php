@@ -25,14 +25,21 @@ class ProductoController {
      * Acción: mostrar la lista de todos los productos.
      * URL que la invoca: ?ruta=productos
      */
-    public function listar(): void {
-        // 1. Pedir datos al Model
-        $productos = $this->repo->obtenerTodos();
+    public function listar(): void
+{
+    $porPagina = 10;
+    $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    if ($pagina < 1) $pagina = 1;
 
-        // 2. Pasar los datos a la View
-        //    La variable $productos queda disponible dentro del archivo incluido.
-        require __DIR__ . '/../views/productos/lista.php';
-    }
+    $offset = ($pagina - 1) * $porPagina;
+
+    $repo = new ProductoRepository();
+    $productos = $repo->obtenerPaginado($porPagina, $offset);
+    $total = $repo->contarTotalProductos();
+    $totalPaginas = (int)ceil($total / $porPagina);
+
+    require __DIR__ . '/../views/productos/lista.php';
+}
 
     // Muestra el formulario
     public function nuevo(): void {

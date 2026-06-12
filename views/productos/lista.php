@@ -6,7 +6,7 @@
 
   <main class="contenido">
     <h1>Catálogo del Minimarket Mass</h1>
-    <p>Total de productos: <strong><?= count($productos) ?></strong></p>
+    <p>Total de productos: <strong><?= $total ?></strong></p>
 
     <table>
       <thead>
@@ -44,6 +44,28 @@
         <?php endforeach; ?>
       </tbody>
     </table>
+    <?php if ($totalPaginas > 1): ?>
+<nav class="pagination">
+    <ul style="display:flex; gap:5px; list-style:none; padding:0;">
+        <?php if ($pagina > 1): ?>
+            <li><a href="index.php?accion=listar&pagina=<?= $pagina - 1 ?>">&laquo; Anterior</a></li>
+        <?php endif; ?>
+
+        <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+            <li>
+                <a href="index.php?accion=listar&pagina=<?= $i ?>"
+                   style="<?= $i === $pagina ? 'font-weight:bold; text-decoration:underline;' : '' ?>">
+                    <?= $i ?>
+                </a>
+            </li>
+        <?php endfor; ?>
+
+        <?php if ($pagina < $totalPaginas): ?>
+            <li><a href="index.php?accion=listar&pagina=<?= $pagina + 1 ?>">Siguiente &raquo;</a></li>
+        <?php endif; ?>
+    </ul>
+</nav>
+<?php endif; ?>
   </main>
 </div>
 

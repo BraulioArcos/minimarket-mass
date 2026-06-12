@@ -196,6 +196,38 @@ class ProductoRepository {
         }
     }
 
+    public function obtenerPaginado(int $limite, int $offset): array {
+        try {
+            $pdo = getConexion();
+
+            $stmt = $pdo->prepare(
+                "SELECT codigo_barras AS codigo, nombre, precio, stock
+                 FROM productos
+                 WHERE activo = 1
+                 ORDER BY nombre ASC
+                 LIMIT :limite OFFSET :offset"
+            );
+            $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $productos = [];
+            foreach ($stmt->fetchAll() as $f) {
+                $productos[] = new Producto(
+                    $f['codigo'],
+                    $f['nombre'],
+                    (float) $f['precio'],
+                    (int)   $f['stock']
+                );
+            }
+            return $productos;
+
+        } catch (PDOException $e) {
+            error_log('[ProductoRepository::obtenerPaginado] ' . $e->getMessage());
+            return [];
+        }
+    }
+
     public function crear(array $d): bool {
         try {
             $pdo  = getConexion();

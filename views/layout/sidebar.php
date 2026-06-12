@@ -8,7 +8,6 @@
      class="<?= $accionActual === 'nuevo-producto' ? 'activo' : '' ?>">
     ➕ Nuevo producto
   </a>
-  <div class="separador"></div>
-  <a class="disabled">✏️ Editar</a>
-  <a class="disabled">📊 Reportes</a>
+  <a href="index.php?accion=reporte-pdf" target="_blank">🧾 Reporte PDF
+  </a>
 </aside>
